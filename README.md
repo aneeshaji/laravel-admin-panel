@@ -29,7 +29,7 @@
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/laravel-admin-panel.git
+git clone https://github.com/aneeshaji/laravel-admin-panel.git
 cd laravel-admin-panel
 ```
 
