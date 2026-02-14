@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,45 +10,72 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans text-gray-900 antialiased">
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
-            <div class="mb-4 text-center">
-                <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Admin Login</h1>
+<body class="font-sans antialiased bg-gray-50 flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-indigo-50 text-indigo-600 mb-4">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-900">Welcome Back</h1>
+            <p class="text-gray-500 mt-2 text-sm">Sign in to access your admin dashboard</p>
+        </div>
+
+        @if ($errors->any())
+            <div class="mb-6 bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-lg text-sm">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('login') }}" class="space-y-5">
+            @csrf
+
+            <!-- Email Address -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                <input id="email" 
+                       type="email" 
+                       name="email" 
+                       value="{{ old('email') }}" 
+                       required 
+                       autofocus
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200"
+                       placeholder="admin@example.com">
             </div>
 
-            <form method="POST" action="{{ route('login') }}">
-                @csrf
+            <!-- Password -->
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <input id="password" 
+                       type="password" 
+                       name="password" 
+                       required
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200"
+                       placeholder="••••••••">
+            </div>
 
-                <!-- Email Address -->
-                <div>
-                    <label for="email" class="block font-medium text-sm text-gray-700 dark:text-gray-300">Email</label>
-                    <input id="email" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" type="email" name="email" :value="old('email')" required autofocus />
-                    @error('email')
-                        <span class="text-sm text-red-600 dark:text-red-400 space-y-1">{{ $message }}</span>
-                    @enderror
-                </div>
+            <!-- Actions -->
+            <div class="flex items-center justify-between pt-2">
+                <a href="{{ route('register') }}" class="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
+                    Create account
+                </a>
 
-                <!-- Password -->
-                <div class="mt-4">
-                    <label for="password" class="block font-medium text-sm text-gray-700 dark:text-gray-300">Password</label>
-                    <input id="password" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" type="password" name="password" required autocomplete="current-password" />
-                    @error('password')
-                        <span class="text-sm text-red-600 dark:text-red-400 space-y-1">{{ $message }}</span>
-                    @enderror
-                </div>
+                <button type="submit" 
+                        class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-200 shadow-sm">
+                    Sign In
+                </button>
+            </div>
+        </form>
 
-                <div class="flex items-center justify-between mt-4">
-                    <a href="{{ route('register') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">
-                        Need an account?
-                    </a>
-
-                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
-                        Log in
-                    </button>
-                </div>
-            </form>
-        </div>
+        <p class="mt-8 text-center text-gray-400 text-xs">
+            © {{ date('Y') }} Admin Panel. All rights reserved.
+        </p>
     </div>
 </body>
 </html>
